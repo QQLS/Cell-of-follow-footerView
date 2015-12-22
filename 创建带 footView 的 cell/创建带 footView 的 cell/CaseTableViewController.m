@@ -11,7 +11,9 @@
 #import "CaseTableViewCell.h"
 #import "FooterView.h"
 
-@interface CaseTableViewController ()
+@interface CaseTableViewController () <UITableViewDataSource, UITableViewDelegate>
+
+@property (weak, nonatomic) IBOutlet UITableView *tableView;
 
 @end
 
@@ -25,6 +27,14 @@
     
     // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
     // self.navigationItem.rightBarButtonItem = self.editButtonItem;
+    
+    self.tableView.dataSource = self;
+    self.tableView.delegate = self;
+    [self.view addSubview:self.tableView];
+    
+    UIView *titleView = [[NSBundle mainBundle] loadNibNamed:@"TitleHeader" owner:nil options:nil].lastObject;
+    titleView.frame = CGRectMake(0, 64, self.view.frame.size.width, 50);
+    [self.view addSubview:titleView];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -53,6 +63,22 @@
     
     return cell;
 }
+
+
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
+    
+    return 268.0f;
+}
+
+//- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
+//    
+//    return 80;
+//}
+//
+//- (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
+//    
+//    return [FooterView getFooterView];
+//}
 
 
 - (UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section {
